@@ -8,17 +8,27 @@ namespace ConsoleApp1
     {   
         public int solution(int[] A)
         {
-            if(A.Length > 400000)
+            int count = 0;
+            try
             {
-                throw new Exception("El número de coordenadas no puede ser superior a 400.000");
+                if (A.Length > 400000)
+                {
+                    throw new Exception("El número de coordenadas no puede ser superior a 400.000");
+                }
+                List<Cumbre> cumbres = this.GetPicos(A);
+
+                cumbres = this.GetCantidadCanones(cumbres);
+
+                Task task = EnviarDronACumbres(cumbres);
+
+                return cumbres.Count;
             }
-            List<Cumbre> cumbres = this.GetPicos(A);
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
 
-            cumbres = this.GetCantidadCanones(cumbres);
-
-            Task task = EnviarDronACumbres(cumbres);
-
-            return cumbres.Count;
+                return count;
+            }            
         }        
 
         private List<Cumbre> GetPicos(int[] valores)
